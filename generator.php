@@ -1,34 +1,57 @@
 <?php
 
-//need function to pick random words - done
-//need function to pick random numbers
-//need function to add camelcase
-//need txt file for words - done
-//need numbers to choose from
-//need to accept settings from index file
-//need to return password to be displayed - done
-
-
 $words = file('wordlist.txt', FILE_IGNORE_NEW_LINES );
 
+//function to put capital letters on words
+function camelCase($string, $delimiter){
+	$exstring = explode($delimiter, $string);
+	$exstringcam = array_map('ucwords', $exstring);
+	return implode($delimiter, $exstringcam);
+}
 //random word selection function with number of words
 function new_word($newword, $number){
-	$newarray = [];
+	
+	$symbols = '!@#$%^&*?';
 	$newstring = "";	
-	$dash = "-";
+	$char = "";
+	$use_numbers = isset($_POST['numbers']);
+	$use_characters = isset($_POST['symbols']);
+	
+	
+	if($use_numbers == 1 && $use_characters != 1) { // functoin for this
+		foreach (range(0,$number) as $i){
+		$char = rand(0,9);
+		}
+	}
+	elseif($use_numbers == 1 && $use_characters == 1) {
+		$char = $symbols[rand(0, strlen($symbols)-1)] . rand(0,9);
+	}
+	elseif($use_numbers != 1 && $use_characters == 1) {
+		$char = $symbols[rand(0, strlen($symbols)-1)];
+	}
+	else {
+		$char = "";
+	}
+	
+	
 	foreach (range(0,$number) as $i){
 		$index = array_rand($newword);	
-		$newstring .=  $newword[$index] . $dash;
-	}	
-	return rtrim($newstring, "-");
+		$newstring .=  $newword[$index] . "-";
+		
+	}
+	
+	return rtrim($newstring,'-') . $char;
+	
 }
 
-
+$use_camelCase = isset($_POST['camelcase']);
+if($use_camelCase == 1){
+		$password = camelCase(new_word($words,$_POST['quantity']-1), '-');
+	}	
+else {
+	$password = new_word($words,$_POST['quantity']-1 );
+}
 $length = $_POST['quantity']-1;
-$password = new_word($words, $length);
-
-
-//function to add numbers in place of dash, probably if then with number line to choose from. 
 
 ?>
 

@@ -1,0 +1,25 @@
+	body {
+		background-color: lightblue;
+	}
+	
+	h1 {
+		
+		font-family:  Arial, Serif;
+	}
+	
+	h3
+	{
+		font-family:  Georgia, Serif;
+		
+	}
+	
+	p {
+		
+		font-family:  Georgia, Serif;
+	}
+	
+	html, body {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
